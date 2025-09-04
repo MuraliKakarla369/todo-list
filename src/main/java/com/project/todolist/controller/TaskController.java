@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,6 +28,11 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<?> createTask(@RequestBody @NonNull CreateTaskRequest createTaskRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskRepository.save(createTaskRequest.getTask()));
+    }
+
+    @GetMapping
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
     }
 
     @GetMapping("{id}")
