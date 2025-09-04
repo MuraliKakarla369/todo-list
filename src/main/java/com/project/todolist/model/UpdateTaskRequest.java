@@ -2,16 +2,15 @@ package com.project.todolist.model;
 
 import lombok.NonNull;
 
-public class CreateTaskRequest {
-
+public class UpdateTaskRequest {
     @NonNull
     private Task task;
 
-    public Task getTask() {
+    public @NonNull Task getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(@NonNull Task task) {
         this.task = task;
     }
 }
