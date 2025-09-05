@@ -30,11 +30,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task getTask(Long id) {
-        return checkIfExists(id);
+    public Task getTaskById(Long id) {
+        return checkAndGetIfExists(id);
     }
 
-    private Task checkIfExists(Long id) {
+    private Task checkAndGetIfExists(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         if (optionalTask.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "order with " + id + " is not found.");
@@ -43,12 +43,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTask(Long id, Task task) {
-        Task existingTask = checkIfExists(id);
+    public void updateTaskById(Long id, Task task) {
+        Task existingTask = checkAndGetIfExists(id);
         existingTask.setTitle(task.getTitle());
         existingTask.setDescription(task.getDescription());
         existingTask.setCompleted(task.isCompleted());
         existingTask.setUpdatedAt(LocalDateTime.now());
         taskRepository.save(existingTask);
+    }
+
+    @Override
+    public void deleteTaskById(Long id) {
+        checkAndGetIfExists(id);
+        taskRepository.deleteById(id);
     }
 }

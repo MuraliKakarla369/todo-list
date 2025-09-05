@@ -6,8 +6,8 @@ import com.project.todolist.model.UpdateTaskRequest;
 import com.project.todolist.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,13 +37,18 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Long id) {
-        return taskService.getTask(id);
+    public Task getTask(@PathVariable Long id) {
+        return taskService.getTaskById(id);
     }
 
     @PutMapping("/{id}")
-    public void updateTaskById(@PathVariable Long id, @RequestBody UpdateTaskRequest request) {
-        taskService.updateTask(id, request.getTask());
+    public void updateTask(@PathVariable Long id, @RequestBody UpdateTaskRequest request) {
+        taskService.updateTaskById(id, request.getTask());
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable Long id) {
+        taskService.deleteTaskById(id);
     }
 
 }

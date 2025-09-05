@@ -9,7 +9,9 @@ public interface TaskService {
 
     List<Task> getTasks();
 
-    Task getTask(Long id);
+    Task getTaskById(Long id);
 
-    void updateTask(Long id, Task task);
+    void updateTaskById(Long id, Task task);
+
+    void deleteTaskById(Long id);
 }
