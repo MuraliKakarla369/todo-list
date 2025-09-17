@@ -1,5 +1,6 @@
 package com.project.todolist.service.impl;
 
+import com.project.todolist.model.TaskRequest;
 import com.project.todolist.model.Task;
 import com.project.todolist.repository.TaskRepository;
 import com.project.todolist.service.TaskService;
@@ -20,7 +21,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task save(Task task) {
+    public Task save(TaskRequest createTaskRequest) {
+        Task task = new Task(createTaskRequest.getTitle(), createTaskRequest.getDescription(), createTaskRequest.isCompleted());
         return taskRepository.save(task);
     }
 
@@ -43,11 +45,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTaskById(Long id, Task task) {
+    public void updateTaskById(Long id, TaskRequest taskRequest) {
         Task existingTask = checkAndGetIfExists(id);
-        existingTask.setTitle(task.getTitle());
-        existingTask.setDescription(task.getDescription());
-        existingTask.setCompleted(task.isCompleted());
+        existingTask.setTitle(taskRequest.getTitle());
+        existingTask.setDescription(taskRequest.getDescription());
+        existingTask.setCompleted(taskRequest.isCompleted());
         existingTask.setUpdatedAt(LocalDateTime.now());
         taskRepository.save(existingTask);
     }

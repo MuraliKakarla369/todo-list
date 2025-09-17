@@ -1,8 +1,7 @@
 package com.project.todolist.controller;
 
-import com.project.todolist.model.CreateTaskRequest;
+import com.project.todolist.model.TaskRequest;
 import com.project.todolist.model.Task;
-import com.project.todolist.model.UpdateTaskRequest;
 import com.project.todolist.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/tasks")
+@RequestMapping(value = "/tasks")
 public class TaskController {
     private TaskService taskService;
 
@@ -26,9 +25,10 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody CreateTaskRequest createTaskRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.save(createTaskRequest.getTask()));
+    public ResponseEntity<Task> createTask(@RequestBody TaskRequest taskRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.save(taskRequest));
     }
 
     @GetMapping
@@ -42,8 +42,8 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public void updateTask(@PathVariable Long id, @RequestBody UpdateTaskRequest request) {
-        taskService.updateTaskById(id, request.getTask());
+    public void updateTask(@PathVariable Long id, @RequestBody TaskRequest taskRequest) {
+        taskService.updateTaskById(id, taskRequest);
     }
 
     @DeleteMapping("/{id}")
