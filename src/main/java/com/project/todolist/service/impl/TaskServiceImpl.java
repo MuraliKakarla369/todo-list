@@ -1,5 +1,6 @@
 package com.project.todolist.service.impl;
 
+import com.project.todolist.model.TaskRequest;
 import com.project.todolist.model.Task;
 import com.project.todolist.repository.TaskRepository;
 import com.project.todolist.service.TaskService;
@@ -20,7 +21,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task save(Task task) {
+    public Task save(TaskRequest createTaskRequest) {
+        Task task = new Task(createTaskRequest.getTitle(), createTaskRequest.getDescription(), createTaskRequest.isCompleted());
         return taskRepository.save(task);
     }
 
@@ -30,11 +32,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task getTask(Long id) {
-        return checkIfExists(id);
+    public Task getTaskById(Long id) {
+        return checkAndGetIfExists(id);
     }
 
-    private Task checkIfExists(Long id) {
+    private Task checkAndGetIfExists(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         if (optionalTask.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "order with " + id + " is not found.");
@@ -43,12 +45,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTask(Long id, Task task) {
-        Task existingTask = checkIfExists(id);
-        existingTask.setTitle(task.getTitle());
-        existingTask.setDescription(task.getDescription());
-        existingTask.setCompleted(task.isCompleted());
+    public void updateTaskById(Long id, TaskRequest taskRequest) {
+        Task existingTask = checkAndGetIfExists(id);
+        existingTask.setTitle(taskRequest.getTitle());
+        existingTask.setDescription(taskRequest.getDescription());
+        existingTask.setCompleted(taskRequest.isCompleted());
         existingTask.setUpdatedAt(LocalDateTime.now());
         taskRepository.save(existingTask);
+    }
+
+    @Override
+    public void deleteTaskById(Long id) {
+        checkAndGetIfExists(id);
+        taskRepository.deleteById(id);
     }
 }

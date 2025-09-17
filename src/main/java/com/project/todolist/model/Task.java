@@ -25,6 +25,7 @@ public class Task {
     }
 
     public Task(String title, String description, boolean completed) {
+        this();
         this.title = title;
         this.description = description;
         this.completed = completed;
