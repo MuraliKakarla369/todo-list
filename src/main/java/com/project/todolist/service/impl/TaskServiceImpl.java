@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
     private Task checkAndGetIfExists(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         if (optionalTask.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "order with " + id + " is not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "task with " + id + " is not found.");
         }
         return optionalTask.get();
     }
